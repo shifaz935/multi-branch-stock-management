@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Stocks - Stock Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Stocks</h3>
+    <a href="{% url 'add_stock' %}" class="btn btn-success">➕ Add Stock</a>
+</div>
+
+{% if stocks %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Branch</th>
+                    <th>Quantity</th>
+                    <th>Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                <tr>
+                    <td><strong>{{ stock.product.name }}</strong></td>
+                    <td>{{ stock.branch.name }}</td>
+                    <td><span class="badge bg-info">{{ stock.quantity }}</span></td>
+                    <td>{{ stock.updated_at|date:"M d, Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">No stocks found.</div>
+{% endif %}
+{% endblock %}

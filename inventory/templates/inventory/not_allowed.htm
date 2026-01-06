@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger text-center">
+        <h3>🚫 Access Denied</h3>
+        <p>You are not allowed to add stock.</p>
+        <p>Please contact the branch manager or admin.</p>
+
+        <a href="{% url 'stock_list' %}" class="btn btn-primary mt-3">
+            Go Back
+        </a>
+    </div>
+</div>
+{% endblock %}

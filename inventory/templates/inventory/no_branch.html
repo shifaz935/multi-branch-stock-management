@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}No Branch Assigned - Stock Manager{% endblock %}
+
+{% block content %}
+<div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">⚠️ No Branch Assigned</h4>
+    <p>You need to be assigned to a branch to view stocks. Please contact your administrator.</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Go to Dashboard</a>
+</div>
+{% endblock %}
