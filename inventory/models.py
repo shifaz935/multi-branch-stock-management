@@ -6,12 +6,20 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     category = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField(blank=True, null=True)
     min_stock_level = models.IntegerField(default=10)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old_price = Product.objects.get(pk=self.pk).price
+            if old_price != self.price:
+                PriceHistory.objects.create(
+                    product=self,
+                    old_price=old_price,
+                    new_price=self.price
+                )
+        super().save(*args, **kwargs)
+
 
 class Stock(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -34,3 +42,11 @@ class Stock(models.Model):
         max_stock = self.product.min_stock_level * 3
         percentage = (self.quantity / max_stock) * 100
         return min(percentage, 100)
+class PriceHistory(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='price_history')
+    old_price = models.DecimalField(max_digits=10, decimal_places=2)
+    new_price = models.DecimalField(max_digits=10, decimal_places=2)
+    changed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.changed_at.date()}"

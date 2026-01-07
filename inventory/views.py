@@ -107,3 +107,11 @@ def add_product(request):
         form = ProductForm()
 
     return render(request, 'inventory/add_product.html', {'form': form})
+def price_history(request, product_id):
+    product = Product.objects.get(id=product_id)
+    history = product.price_history.order_by('-changed_at')
+
+    return render(request, 'inventory/price_history.html', {
+        'product': product,
+        'history': history
+    })

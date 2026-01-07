@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4>📈 Price History - {{ product.name }}</h4>
+
+<table class="table table-bordered mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Old Price</th>
+            <th>New Price</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for h in history %}
+        <tr>
+            <td>₹{{ h.old_price }}</td>
+            <td>₹{{ h.new_price }}</td>
+            <td>{{ h.changed_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" class="text-center">No price changes yet</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
